@@ -6,6 +6,8 @@ const progress = document.getElementById("progress");
 const volume = document.getElementById("volume");
 const playlistUI = document.getElementById("playlist");
 const songTitle = document.getElementById("song-title");
+const currentTimeEl = document.getElementById("current");
+const durationEl = document.getElementById("duration");
 
 const songs = [
 {title:"Song 1",file:"songs/song1.mp3"},
@@ -57,7 +59,28 @@ playSong();
 });
 
 audio.addEventListener("timeupdate",()=>{
-progress.value=(audio.currentTime/audio.duration)*100;
+
+let progressPercent=(audio.currentTime/audio.duration)*100;
+progress.value=progressPercent;
+
+let currentMin=Math.floor(audio.currentTime/60);
+let currentSec=Math.floor(audio.currentTime%60);
+
+if(currentSec<10){
+currentSec="0"+currentSec;
+}
+
+currentTimeEl.textContent=currentMin+":"+currentSec;
+
+let durationMin=Math.floor(audio.duration/60);
+let durationSec=Math.floor(audio.duration%60);
+
+if(durationSec<10){
+durationSec="0"+durationSec;
+}
+
+durationEl.textContent=durationMin+":"+durationSec;
+
 });
 
 progress.addEventListener("input",()=>{
